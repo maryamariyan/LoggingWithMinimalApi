@@ -32,7 +32,6 @@ var summaries = new[]
 app.MapGet("/", async () =>
 {
     Log.HelloWorld(app.Logger);
-    return nameof(Log.HelloWorld);
 })
 .WithName("Index");
 
