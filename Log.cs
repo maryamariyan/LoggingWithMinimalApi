@@ -4,12 +4,10 @@ internal static partial class Log
     public static partial void HelloWorld(ILogger logger);
 
     #region Sample2
-    [LoggerMessage(EventId = 1010, Level = LogLevel.Information, Message = MessageTemplate_5_Args)]
+    [LoggerMessage(EventId = 1010, Level = LogLevel.Information, Message = "Resident {Name} aged {Age} years old from {Hometown} moved here {YearsSince} years with {NumSuitcases} suitcases!")]
     public static partial void NewResidentInformationGenerated(ILogger logger,
         string name, int age, string hometown, int yearsSince, long numSuitcases);
 
-    internal const string MessageTemplate_5_Args = "Resident {Name} aged {Age} years old" +
-        " from {Hometown} moved here {YearsSince} years with {NumSuitcases} suitcases!";
     #endregion
 
     #region SkippedBoilerplateCode
@@ -21,8 +19,7 @@ internal static partial class Log
         LoggerMessage.Define<string, int, string, int, long>(
             LogLevel.Information,
             new EventId(1012),
-            MessageTemplate_5_Args,
-            s_LogDefineOptions);
+            "Resident {Name} aged {Age} years old from {Hometown} moved here {YearsSince} years with {NumSuitcases} suitcases!");
 #endregion
 
     #region MoreLoggerMessageSamples

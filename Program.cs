@@ -70,12 +70,14 @@ app.MapGet("/residentinfo", () =>
     );
 
     // fast to write, slow to execute
-    app.Logger.LogInformation(1010, Log.MessageTemplate_5_Args, resident.Name, resident.Age, resident.Hometown, resident.YearsSince, resident.NumSuitcases);
+    app.Logger.LogInformation(1010, 
+        "Resident {Name} aged {Age} years old from {Hometown} moved here {YearsSince} years with {NumSuitcases} suitcases!",
+        resident.Name, resident.Age, resident.Hometown, resident.YearsSince, resident.NumSuitcases);
 
     // slow to write, faster to execute
     Log.NewResidentInformationUserDefined(app.Logger, resident.Name, resident.Age, resident.Hometown, resident.YearsSince, resident.NumSuitcases);
 
-    // fast to write and to execute
+    // NEW: fast to write and to execute
     Log.NewResidentInformationGenerated(app.Logger, resident.Name, resident.Age, resident.Hometown, resident.YearsSince, resident.NumSuitcases);
 })
 .WithName("GetResidentInformantion");
