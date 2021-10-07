@@ -8,10 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Logging.ClearProviders().AddConsole().AddCustomFormatter(o =>
-    {
-        o.CustomPrefix = Environment.NewLine + " >>> ";
-        o.ColorBehavior = LoggerColorBehavior.Default;
-    });
+{
+    o.CustomPrefix = Environment.NewLine + " >>> ";
+    o.ColorBehavior = LoggerColorBehavior.Default;
+});
 
 var app = builder.Build();
 
@@ -29,16 +29,16 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/", (ILogger<Program> logger) =>
+app.MapGet("/", async () =>
 {
-    Log.HelloWorld(logger);
-    return "Hello World";
-});
+    Log.HelloWorld(app.Logger);
+    return nameof(Log.HelloWorld);
+})
+.WithName("Index");
 
-app.MapGet("/weatherforecast", async context =>
+app.MapGet("/weatherforecast", () =>
 {
-    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
-    var forecast = Enumerable.Range(1, 5).Select(index =>
+    var forecasts = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateTime.Now.AddDays(index),
@@ -46,11 +46,12 @@ app.MapGet("/weatherforecast", async context =>
             summaries[Random.Shared.Next(summaries.Length)]
         ))
         .ToArray();
-    foreach (WeatherForecast forecastOnDay in forecast)
+    foreach (WeatherForecast forecastOnDay in forecasts)
     {
-        Log.GotWeatherForecastWithSummary(logger, forecastOnDay.Summary!);
+        Log.GotWeatherForecastWithSummary(app.Logger, forecastOnDay.Summary!);
     }
-    return forecast;
+    
+    return forecasts;
 })
 .WithName("GetWeatherForecast");
 
