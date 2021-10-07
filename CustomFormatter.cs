@@ -60,7 +60,7 @@ namespace Console.ExampleFormatters.Custom
             if (ConsoleColorFormattingEnabled)
             {
                 textWriter.WriteWithColor(
-                    _formatterOptions.CustomPrefix,
+                    _formatterOptions.CustomPrefix ?? string.Empty,
                     ConsoleColor.Black,
                     ConsoleColor.Green);
             }

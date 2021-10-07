@@ -29,7 +29,7 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapGet("/", async () =>
+app.MapGet("/", () =>
 {
     Log.HelloWorld(app.Logger);
     return nameof(Log.HelloWorld);
