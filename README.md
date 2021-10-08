@@ -1,4 +1,4 @@
-# LoggingWithMinimalApi
+# Source generated logging with Minimal APIs in ASP.NET Core
 
 Using .NET 6.0 RC2 and with the minimal API template:
 
