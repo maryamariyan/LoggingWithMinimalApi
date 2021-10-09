@@ -29,7 +29,7 @@ Refer to source code [here](https://github.com/dotnet/runtime/blob/e5dd7150e6ced
 
 To allow for deferring the `IsEnabled` check to user code, in .NET 6.0 we added `LogDefineOptions` for `LoggerMessage.Define` APIs, accepting a `SkipEnabledCheck` flag. By default this flag is `false` and the logging code will always do a `logger.IsEnabled(logLevel)` check before each log call, because there is no guarantee that log calls would be guarded by user code already. 
 
-But with source generated code, since the source generator does this `IsEnabled` check then the `LogDefineOptions' flag is by default set to true. This can be skipped further by using `SkipEnabledCheck` flag on the `LoggerMessageAttribute` as seen in the aspnetcore sample.
+But with source generated code, since the source generator does this `IsEnabled` check then the `LogDefineOptions` flag is by default set to true. This can be skipped further by using `SkipEnabledCheck` flag on the `LoggerMessageAttribute` as seen in the aspnetcore sample.
 
 ### Benchmarks on Logging:
 
