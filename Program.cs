@@ -1,17 +1,24 @@
 using Demo;
 using Microsoft.Extensions.Logging.Console;
 using System.Diagnostics;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Logs;
+using Microsoft.Extensions.Logging.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Logging.ClearProviders().AddConsole().AddCustomFormatter(o =>
-{
-    o.CustomPrefix = Environment.NewLine + " >>> ";
-    o.ColorBehavior = LoggerColorBehavior.Default;
-});
+builder.Logging.ClearProviders()
+    .AddConsole()
+    .AddOpenTelemetry(options => options.AddConsoleExporter())
+    .AddCustomFormatter(o =>
+    {
+        o.CustomPrefix = Environment.NewLine + " >>> ";
+        o.ColorBehavior = LoggerColorBehavior.Default;
+    });
 
 var app = builder.Build();
 
@@ -129,3 +136,19 @@ record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
 }
 
 record Resident(string Name, int Age, string Hometown, int YearsSince, long NumSuitcases) { }
+
+public static class OpenTelemetryLoggingExtensions
+{
+    public static ILoggingBuilder AddOpenTelemetry(this ILoggingBuilder builder, Action<OpenTelemetryLoggerOptions> configure = null)
+    {
+        builder.AddConfiguration();
+        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, OpenTelemetryLoggerProvider>());
+
+        if (configure != null)
+        {
+            builder.Services.Configure(configure);
+        }
+
+        return builder;
+    }
+}

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.0.0-rc8" />
   </ItemGroup>
 
 </Project>
